@@ -101,6 +101,7 @@ export type ActionItem = {
   therapist_id: string;
   title: string;
   category: string | null;
+  description: string | null;
   impact_estimate: ActionImpact;
   status: ItemStatus;
   created_at: string;

@@ -53,20 +53,30 @@ export default async function ActionsPage({
         {actionItems.map((a) => {
           const deleteWithId = deleteActionItem.bind(null, a.id, id);
           return (
-            <Card key={a.id} className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium text-slate-900">{a.title}</p>
-                <p className="mt-0.5 text-xs text-slate-500">{a.category ?? "Général"}</p>
+            <Card key={a.id}>
+              <div className="flex items-center justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-slate-900">{a.title}</p>
+                  <p className="mt-0.5 text-xs text-slate-500">{a.category ?? "Général"}</p>
+                </div>
+                <div className="flex shrink-0 items-center gap-3">
+                  <Badge color={priorityColor(a.impact_estimate)}>Impact {priorityLabel(a.impact_estimate)}</Badge>
+                  <ActionStatusSelect actionId={a.id} therapistId={id} status={a.status} />
+                  <form action={deleteWithId}>
+                    <Button type="submit" variant="ghost">
+                      Supprimer
+                    </Button>
+                  </form>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Badge color={priorityColor(a.impact_estimate)}>Impact {priorityLabel(a.impact_estimate)}</Badge>
-                <ActionStatusSelect actionId={a.id} therapistId={id} status={a.status} />
-                <form action={deleteWithId}>
-                  <Button type="submit" variant="ghost">
-                    Supprimer
-                  </Button>
-                </form>
-              </div>
+              {a.description && (
+                <details className="mt-2">
+                  <summary className="cursor-pointer text-xs font-medium text-blue-700">
+                    Comment faire ?
+                  </summary>
+                  <p className="mt-2 whitespace-pre-line text-sm text-slate-600">{a.description}</p>
+                </details>
+              )}
             </Card>
           );
         })}
