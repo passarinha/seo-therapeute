@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 const TABS = [
   { slug: "", label: "Fiche cabinet" },
   { slug: "keywords", label: "Mots-clés" },
-  { slug: "competitors", label: "Concurrents" },
   { slug: "ads", label: "Annonces Google Ads" },
+  { slug: "competitors", label: "Concurrents" },
   { slug: "performance", label: "Performance" },
   { slug: "actions", label: "Plan d'action" },
   { slug: "import", label: "Import CSV" },

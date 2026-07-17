@@ -7,8 +7,10 @@ import { LinkButton } from "@/components/ui/Button";
 import { KeywordSuggestions } from "@/components/dashboard/KeywordSuggestions";
 import { KeywordBulkAddForm } from "@/components/dashboard/KeywordBulkAddForm";
 import { KeywordPrioritySelect, KeywordStatusSelect } from "@/components/dashboard/KeywordInlineSelects";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import type { Keyword } from "@/lib/supabase/types";
+import { deleteKeyword } from "./actions";
 
 export default async function KeywordsPage({
   params,
@@ -87,7 +89,23 @@ export default async function KeywordsPage({
         </div>
       </div>
 
-      <Table columns={columns} rows={keywords} emptyMessage="Aucun mot-clé pour l'instant." />
+      <p className="text-xs text-slate-400">
+        Priorité : sur quoi se concentrer en premier. Statut : où vous en êtes (à faire, en cours,
+        fait) sur le travail de ce mot-clé.
+      </p>
+
+      <Table
+        columns={columns}
+        rows={keywords}
+        emptyMessage="Aucun mot-clé pour l'instant."
+        rowActions={(k) => (
+          <form action={deleteKeyword.bind(null, k.id, id)}>
+            <Button type="submit" variant="ghost">
+              Supprimer
+            </Button>
+          </form>
+        )}
+      />
     </div>
   );
 }
