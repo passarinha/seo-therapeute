@@ -7,15 +7,36 @@ export interface AdLine {
   text: string;
   length: number;
   ok: boolean;
+  shortened: boolean;
+}
+
+export interface AdVariant {
+  headline: AdLine;
+  description: AdLine;
 }
 
 export interface AdIdeas {
-  headlines: AdLine[];
-  descriptions: AdLine[];
+  ads: AdVariant[];
+}
+
+function shortenToLimit(text: string, limit: number): string {
+  if (text.length <= limit) return text;
+  const truncated = text.slice(0, limit);
+  const lastSpace = truncated.lastIndexOf(" ");
+  if (lastSpace > limit * 0.5) {
+    return truncated.slice(0, lastSpace).trimEnd();
+  }
+  return truncated.trimEnd();
 }
 
 function toLine(text: string, limit: number): AdLine {
-  return { text, length: text.length, ok: text.length <= limit };
+  const shortened = shortenToLimit(text, limit);
+  return {
+    text: shortened,
+    length: shortened.length,
+    ok: shortened.length <= limit,
+    shortened: shortened !== text,
+  };
 }
 
 function capitalize(text: string): string {
@@ -43,8 +64,13 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
     `${capitalize(specialty)} à l'écoute de vos besoins. ${cta} dès aujourd'hui.`,
   ];
 
-  return {
-    headlines: headlineTemplates.map((t) => toLine(t, HEADLINE_LIMIT)),
-    descriptions: descriptionTemplates.map((t) => toLine(t, DESCRIPTION_LIMIT)),
-  };
+  const headlines = headlineTemplates.map((t) => toLine(t, HEADLINE_LIMIT));
+  const descriptions = descriptionTemplates.map((t) => toLine(t, DESCRIPTION_LIMIT));
+
+  const ads: AdVariant[] = headlines.map((headline, i) => ({
+    headline,
+    description: descriptions[i % descriptions.length],
+  }));
+
+  return { ads };
 }

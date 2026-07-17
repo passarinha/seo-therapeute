@@ -3,23 +3,17 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge, priorityColor, priorityLabel } from "@/components/ui/Badge";
-import type { AdIdeas } from "@/lib/ads/generateAdIdeas";
+import type { AdIdeas, AdLine } from "@/lib/ads/generateAdIdeas";
 import type { Keyword } from "@/lib/supabase/types";
 
-function LineList({ title, lines }: { title: string; lines: AdIdeas["headlines"] }) {
+function LineDisplay({ line }: { line: AdLine }) {
   return (
-    <div>
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">{title}</p>
-      <ul className="mt-1 space-y-1">
-        {lines.map((line, i) => (
-          <li key={i} className="flex items-center justify-between gap-3 text-sm">
-            <span className="text-slate-700">{line.text}</span>
-            <span className={`shrink-0 text-xs ${line.ok ? "text-slate-400" : "text-red-600"}`}>
-              {line.ok ? "✓" : "⚠"} {line.length}
-            </span>
-          </li>
-        ))}
-      </ul>
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-sm text-slate-700">{line.text}</span>
+      <span className="shrink-0 text-xs text-slate-400">
+        ✓ {line.length}
+        {line.shortened && <span className="ml-1 italic">(raccourci)</span>}
+      </span>
     </div>
   );
 }
@@ -28,13 +22,9 @@ export function AdIdeasCard({ keyword, ideas }: { keyword: Keyword; ideas: AdIde
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
-    const text = [
-      "Titres :",
-      ...ideas.headlines.map((h) => `- ${h.text}`),
-      "",
-      "Descriptions :",
-      ...ideas.descriptions.map((d) => `- ${d.text}`),
-    ].join("\n");
+    const text = ideas.ads
+      .map((ad, i) => `Annonce ${i + 1}\nTitre : ${ad.headline.text}\nDescription : ${ad.description.text}`)
+      .join("\n\n");
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -52,12 +42,21 @@ export function AdIdeasCard({ keyword, ideas }: { keyword: Keyword; ideas: AdIde
           onClick={handleCopy}
           className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
         >
-          {copied ? "Copié !" : "Copier tout"}
+          {copied ? "Copié !" : "Copier les 5 annonces"}
         </button>
       </div>
-      <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <LineList title="Titres" lines={ideas.headlines} />
-        <LineList title="Descriptions" lines={ideas.descriptions} />
+      <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {ideas.ads.map((ad, i) => (
+          <div key={i} className="rounded-md border border-slate-200 p-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+              Annonce {i + 1}
+            </p>
+            <div className="mt-2 space-y-1.5">
+              <LineDisplay line={ad.headline} />
+              <LineDisplay line={ad.description} />
+            </div>
+          </div>
+        ))}
       </div>
     </Card>
   );
