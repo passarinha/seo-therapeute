@@ -28,29 +28,16 @@ export async function createTherapist(formData: FormData) {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: whoami, error: whoamiError } = await supabase.rpc("debug_auth_uid");
-
+  const id = crypto.randomUUID();
   const fields = fieldsFromForm(formData);
-  const payload = { ...fields, user_id: user.id };
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("therapist_profile")
-    .insert(payload)
-    .select("id")
-    .single();
+    .insert({ id, ...fields, user_id: user.id });
 
-  if (error) {
-    console.error("[createTherapist] insert failed", {
-      getUserId: user.id,
-      authUidViaRpc: whoami,
-      rpcError: whoamiError,
-      payload,
-      error,
-    });
-    throw error;
-  }
+  if (error) throw error;
 
   revalidatePath("/therapists");
-  redirect(`/therapists/${data.id}`);
+  redirect(`/therapists/${id}`);
 }
 
 export async function updateTherapist(id: string, formData: FormData) {
