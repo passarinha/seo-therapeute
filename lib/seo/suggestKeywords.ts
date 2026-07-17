@@ -14,12 +14,21 @@ export function suggestKeywords(
   const places = Array.from(new Set([city, targetArea].filter(Boolean))) as string[];
   const placeSuffixes = places.length > 0 ? places.map((p) => ` ${p}`) : [""];
 
-  // Priorité aux besoins spécifiques au type de praticien (ex: "hypnothérapeute anxiété Lyon"),
-  // bien plus précis et pertinent que les modèles génériques ci-dessous.
+  // Priorité au positionnement propre au thérapeute (ex: "psychologue burn-out Lyon"), puis
+  // aux besoins types du métier (ex: "hypnothérapeute anxiété Lyon") — bien plus précis que
+  // les modèles génériques ci-dessous.
   const specialtyTemplates: string[] = [];
+  const positioning = therapist.positioning?.trim();
+  if (positioning) {
+    for (const suffix of placeSuffixes) {
+      specialtyTemplates.push(`${specialty} ${positioning}${suffix}`);
+    }
+  }
+
   const entry = findSpecialtyEntry(specialty);
   if (entry) {
     for (const need of entry.needs) {
+      if (positioning && need.toLowerCase() === positioning.toLowerCase()) continue;
       for (const suffix of placeSuffixes) {
         specialtyTemplates.push(`${specialty} ${need}${suffix}`);
       }

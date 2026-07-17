@@ -17,20 +17,30 @@ export function TherapistForm({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Nom du cabinet" name="cabinet_name" defaultValue={therapist?.cabinet_name} required />
         <Field label="Nom du thérapeute" name="therapist_name" defaultValue={therapist?.therapist_name} />
-        <div>
+
+        <div className="space-y-4 sm:col-span-2">
+          <div>
+            <Field
+              label="Spécialité"
+              name="specialty"
+              defaultValue={therapist?.specialty}
+              list="specialty-options"
+              placeholder="ex: Hypnothérapeute"
+            />
+            <datalist id="specialty-options">
+              {SPECIALTY_CATALOG.map((entry) => (
+                <option key={entry.id} value={entry.label} />
+              ))}
+            </datalist>
+          </div>
           <Field
-            label="Spécialité"
-            name="specialty"
-            defaultValue={therapist?.specialty}
-            list="specialty-options"
-            placeholder="ex: Hypnothérapeute"
+            label="Positionnement / expertise"
+            name="positioning"
+            defaultValue={therapist?.positioning}
+            placeholder="ex: burn-out, troubles du sommeil, périnatalité..."
           />
-          <datalist id="specialty-options">
-            {SPECIALTY_CATALOG.map((entry) => (
-              <option key={entry.id} value={entry.label} />
-            ))}
-          </datalist>
         </div>
+
         <Field label="Ville" name="city" defaultValue={therapist?.city} />
         <Field label="Zone géographique ciblée" name="target_area" defaultValue={therapist?.target_area} />
         <Field label="Adresse" name="address" defaultValue={therapist?.address} />

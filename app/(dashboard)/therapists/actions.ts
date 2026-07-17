@@ -4,12 +4,14 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { syncActionPlan } from "@/lib/actions/syncActionPlan";
+import { seedStarterKeywordsIfNeeded } from "@/lib/actions/seedStarterKeywords";
 
 function fieldsFromForm(formData: FormData) {
   return {
     cabinet_name: String(formData.get("cabinet_name") ?? ""),
     therapist_name: String(formData.get("therapist_name") ?? "") || null,
     specialty: String(formData.get("specialty") ?? "") || null,
+    positioning: String(formData.get("positioning") ?? "") || null,
     city: String(formData.get("city") ?? "") || null,
     target_area: String(formData.get("target_area") ?? "") || null,
     address: String(formData.get("address") ?? "") || null,
@@ -36,6 +38,8 @@ export async function createTherapist(formData: FormData) {
 
   if (error) throw error;
 
+  await seedStarterKeywordsIfNeeded(id, fields);
+
   revalidatePath("/therapists");
   redirect(`/therapists/${id}`);
 }
@@ -50,6 +54,8 @@ export async function updateTherapist(id: string, formData: FormData) {
     .eq("id", id);
 
   if (error) throw error;
+
+  await seedStarterKeywordsIfNeeded(id, fields);
 
   revalidatePath(`/therapists/${id}`);
   revalidatePath("/therapists");

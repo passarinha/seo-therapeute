@@ -51,7 +51,7 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
   const therapistName = therapist.therapist_name || specialty;
   const cta = therapist.booking_url ? "Réservez en ligne" : "Appelez maintenant";
   const entry = findSpecialtyEntry(therapist.specialty);
-  const need = entry?.needs[0];
+  const need = therapist.positioning?.trim() || entry?.needs[0];
 
   const headlineTemplates = [
     city ? `${capitalize(specialty)} à ${city}` : capitalize(specialty),
@@ -64,8 +64,8 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
   const descriptionTemplates = [
     `Prenez rendez-vous avec ${therapistName}${city ? ` à ${city}` : ""}. ${cta}.`,
     `Cabinet ${cabinetName} : ${specialty}. Consultations${city ? ` à ${city}` : ""}. ${cta}.`,
-    entry
-      ? `${capitalize(entry.approach)}, notamment pour ${entry.needs[0]}. ${cta}.`
+    entry || need
+      ? `${entry ? capitalize(entry.approach) : capitalize(specialty)}${need ? `, notamment pour ${need}` : ""}. ${cta}.`
       : `${capitalize(specialty)} à l'écoute de vos besoins. ${cta} dès aujourd'hui.`,
   ];
 

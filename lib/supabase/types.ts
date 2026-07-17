@@ -7,6 +7,7 @@ export type TherapistProfile = {
   cabinet_name: string;
   therapist_name: string | null;
   specialty: string | null;
+  positioning: string | null;
   city: string | null;
   target_area: string | null;
   address: string | null;
