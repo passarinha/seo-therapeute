@@ -41,6 +41,7 @@ export default async function AdsPage({
             <AdIdeasCard
               key={keyword.id}
               keyword={keyword}
+              therapistId={id}
               ideas={generateAdIdeas(therapist, keyword)}
               matchType={recommendMatchType(keyword)}
             />

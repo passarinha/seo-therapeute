@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge, priorityColor, priorityLabel } from "@/components/ui/Badge";
+import { deleteKeyword } from "@/app/(dashboard)/therapists/[id]/keywords/actions";
 import type { AdIdeas, AdLine } from "@/lib/ads/generateAdIdeas";
 import type { MatchTypeResult } from "@/lib/ads/matchType";
 import type { Keyword } from "@/lib/supabase/types";
@@ -25,10 +26,12 @@ function storageKey(keywordId: string) {
 
 export function AdIdeasCard({
   keyword,
+  therapistId,
   ideas,
   matchType,
 }: {
   keyword: Keyword;
+  therapistId: string;
   ideas: AdIdeas;
   matchType: MatchTypeResult;
 }) {
@@ -105,6 +108,26 @@ export function AdIdeasCard({
           >
             {copied ? "Copié !" : `Copier ${visibleAds.length > 0 ? visibleAds.length : ""} annonce(s)`}
           </button>
+          <form
+            action={deleteKeyword.bind(null, keyword.id, therapistId, `/therapists/${therapistId}/ads`)}
+            onSubmit={(e) => {
+              if (
+                !window.confirm(
+                  `Supprimer le mot-clé "${keyword.keyword}" et son groupe d'annonces ?`
+                )
+              ) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <button
+              type="submit"
+              title="Supprimer ce groupe d'annonces"
+              className="rounded-md border border-red-200 bg-white px-2 py-1.5 text-sm text-red-600 hover:bg-red-50"
+            >
+              🗑️
+            </button>
+          </form>
         </div>
       </div>
       {visibleAds.length === 0 ? (

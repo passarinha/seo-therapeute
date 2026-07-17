@@ -113,7 +113,7 @@ export default async function KeywordsPage({
         rows={keywords}
         emptyMessage="Aucun mot-clé pour l'instant."
         rowActions={(k) => (
-          <form action={deleteKeyword.bind(null, k.id, id)}>
+          <form action={deleteKeyword.bind(null, k.id, id, undefined)}>
             <Button type="submit" variant="ghost">
               Supprimer
             </Button>

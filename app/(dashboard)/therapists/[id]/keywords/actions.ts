@@ -48,13 +48,14 @@ export async function updateKeyword(id: string, therapistId: string, formData: F
   redirect(`/therapists/${therapistId}/keywords`);
 }
 
-export async function deleteKeyword(id: string, therapistId: string) {
+export async function deleteKeyword(id: string, therapistId: string, redirectTo?: string) {
   const supabase = await createClient();
   const { error } = await supabase.from("keyword").delete().eq("id", id);
   if (error) throw error;
 
-  revalidatePath(`/therapists/${therapistId}/keywords`);
-  redirect(`/therapists/${therapistId}/keywords`);
+  const target = redirectTo || `/therapists/${therapistId}/keywords`;
+  revalidatePath(target);
+  redirect(target);
 }
 
 export async function quickAddKeyword(therapistId: string, formData: FormData) {

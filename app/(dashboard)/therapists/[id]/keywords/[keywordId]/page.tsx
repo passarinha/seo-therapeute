@@ -15,7 +15,7 @@ export default async function EditKeywordPage({
   if (!keyword || keyword.therapist_id !== id) notFound();
 
   const updateWithId = updateKeyword.bind(null, keywordId, id);
-  const deleteWithId = deleteKeyword.bind(null, keywordId, id);
+  const deleteWithId = deleteKeyword.bind(null, keywordId, id, undefined);
 
   return (
     <div className="max-w-2xl space-y-6">
