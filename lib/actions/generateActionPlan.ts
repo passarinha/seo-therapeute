@@ -12,13 +12,52 @@ export interface ActionCandidate {
   impact_estimate: ActionImpact;
 }
 
-const REVIEW_REQUEST_TEMPLATE = `Récupérez votre lien d'avis direct : sur votre fiche Google Business Profile (business.google.com), cliquez sur "Demander des avis" pour obtenir un lien court à partager.
+const REVIEW_REQUEST_TEMPLATE = `Récupérez d'abord votre lien d'avis direct : sur business.google.com, ouvrez votre fiche, cliquez sur "Demander des avis" pour obtenir un lien court à partager.
 
-Envoyez ensuite ce message (SMS, email ou WhatsApp) à vos patients des 2-3 derniers mois :
+Exemple de message SMS/WhatsApp (court) :
+"Bonjour [Prénom], j'espère que notre séance vous a été utile. Auriez-vous 2 minutes pour laisser un avis sur ma fiche Google ? [votre lien] Merci beaucoup ! [Votre prénom]"
 
-"Bonjour [Prénom], j'espère que nos séances vous sont utiles. Si vous le souhaitez, cela m'aiderait beaucoup que vous preniez 2 minutes pour laisser un avis sur ma fiche Google : [votre lien d'avis]. Merci beaucoup, [Votre nom]"
+Exemple d'email (plus détaillé) :
+Objet : Votre avis compte pour moi
+"Bonjour [Prénom],
+J'espère que vous allez bien depuis notre dernière séance. Si vous avez apprécié nos échanges, cela m'aiderait beaucoup que vous preniez quelques minutes pour partager votre expérience sur ma fiche Google : [votre lien]
+Votre avis aide d'autres personnes à trouver de l'aide plus facilement.
+Merci pour votre confiance,
+[Votre nom]"
 
-Envoyez cette demande à 3-5 patients par mois plutôt qu'en une seule fois, pour un flux d'avis régulier et naturel aux yeux de Google.`;
+Exemple à dire à l'oral en fin de séance :
+"Si vous avez trouvé cette séance utile, un avis Google m'aiderait beaucoup à me faire connaître — je peux vous envoyer le lien par SMS si vous voulez."
+
+Astuce : envoyez ces demandes à 3-5 patients par mois plutôt qu'en une seule fois, pour un flux d'avis régulier et naturel aux yeux de Google.`;
+
+const SERVICE_PAGE_TEMPLATE = `Structure à suivre pour chaque page service, avec un exemple concret à adapter à votre pratique :
+
+1. Titre (H1) — reprend le mot-clé :
+"Psychologue spécialisé en anxiété à Lyon"
+
+2. Introduction (2-3 phrases) :
+"Vous ressentez une anxiété qui perturbe votre quotidien ? En tant que psychologue à Lyon spécialisé dans la prise en charge de l'anxiété, je vous accompagne vers un mieux-être durable."
+
+3. Déroulement de la consultation :
+"La première séance dure 1h et permet de faire le point sur votre situation. Les séances suivantes (45 min) s'appuient sur des techniques adaptées à vos besoins."
+
+4. Réponses aux questions fréquentes : tarifs, remboursement, télétransmission, durée du suivi.
+
+5. Appel à l'action final, bien visible :
+"Prenez rendez-vous en ligne dès maintenant" (avec le lien de réservation).
+
+Pas de site pour l'instant ? Cette même structure fonctionne très bien sur une simple page Google Sites gratuite ou sur une fiche annuaire complète (voir action dédiée).`;
+
+const GBP_OPTIMIZATION_TEMPLATE = `Sur business.google.com, voici des exemples concrets à adapter :
+
+Description de la fiche (750 caractères max), exemple :
+"Cabinet de [spécialité] à [ville], j'accompagne mes patients sur [votre positionnement, ex: l'anxiété, la confiance en soi]. Consultations en cabinet et en téléconsultation. Prise de rendez-vous en ligne ou par téléphone."
+
+Photos à ajouter en priorité : façade/entrée du cabinet, salle d'attente, salle de consultation, une photo professionnelle de vous.
+
+Catégorie principale : vérifiez qu'elle correspond exactement à votre métier (ex: "Psychologue" plutôt qu'un intitulé générique) — cela influence directement les recherches qui vous font apparaître.
+
+Publications (posts) : publiez une fois par mois un post court, par exemple "Nouveaux créneaux disponibles cette semaine" ou "Le saviez-vous ? [un conseil lié à votre spécialité]" — cela signale à Google une fiche active.`;
 
 export function generateActionPlan(
   therapist: TherapistProfile,
@@ -42,8 +81,7 @@ export function generateActionPlan(
       title: "Optimiser la fiche Google Business Profile",
       category: "gbp",
       impact_estimate: "high",
-      description:
-        "Sur business.google.com : ajoutez au moins 10 photos récentes (cabinet, salle d'attente, vous en consultation), complétez la description en mentionnant votre spécialité et votre ville, vérifiez que la catégorie principale correspond bien à votre activité, et renseignez vos horaires précisément. Ce sont les éléments les plus consultés avant une prise de contact.",
+      description: GBP_OPTIMIZATION_TEMPLATE,
     });
   }
 
@@ -52,8 +90,7 @@ export function generateActionPlan(
       title: "Créer ou améliorer les pages services ciblant les mots-clés prioritaires",
       category: "content",
       impact_estimate: "high",
-      description:
-        "Pour vos 3 mots-clés les plus prioritaires (onglet Mots-clés), créez une page ou section dédiée qui : reprend le mot-clé dans le titre et le premier paragraphe, explique concrètement le déroulement d'une consultation, répond aux questions fréquentes (tarifs, remboursement, durée), et se termine par un lien de prise de rendez-vous clair. Pas de site ? Une page Google Sites gratuite ou une fiche complète sur un annuaire (voir action dédiée) peut suffire pour démarrer.",
+      description: SERVICE_PAGE_TEMPLATE,
     });
   } else if (scores.visibility.value < 70) {
     candidates.push({
@@ -62,16 +99,6 @@ export function generateActionPlan(
       impact_estimate: "medium",
       description:
         "Ajoutez 4 à 6 questions/réponses en bas de votre page d'accueil ou de vos pages services, en reprenant les questions que vos patients posent réellement en premier contact (tarifs, remboursement, déroulement, durée, télétransmission). Cela répond directement aux recherches informationnelles et renforce votre référencement local.",
-    });
-  }
-
-  if (scores.trust.value < 60) {
-    candidates.push({
-      title: "Renforcer les signaux de confiance",
-      category: "trust",
-      impact_estimate: "high",
-      description:
-        "Sur votre site et votre fiche Google : affichez vos diplômes/certifications (et numéro ADELI/RPPS si applicable), mettez en avant 2-3 témoignages ou avis, indiquez votre nombre d'années d'expérience, et ajoutez une vraie photo professionnelle de vous (pas un logo). Ces éléments rassurent un patient qui ne vous connaît pas encore avant qu'il ne prenne contact.",
     });
   }
 
@@ -115,18 +142,6 @@ export function generateActionPlan(
   }
 
   const competitorSummary = summarizeCompetitors(competitors);
-  if (competitorSummary.avgReviewCount != null) {
-    const yours = latestReview?.review_count ?? 0;
-    if (yours < competitorSummary.avgReviewCount) {
-      candidates.push({
-        title: `Combler l'écart d'avis avec vos concurrents (moyenne ${competitorSummary.avgReviewCount} vs vos ${yours})`,
-        category: "competitors",
-        impact_estimate: competitorSummary.avgReviewCount - yours > 15 ? "high" : "medium",
-        description:
-          "Voir l'action \"Demander de nouveaux avis aux patients récents\" ci-dessus pour la démarche et le message prêt à envoyer. L'écart se comble progressivement en visant 3 à 5 nouvelles demandes par mois plutôt qu'une campagne unique.",
-      });
-    }
-  }
   if (competitorSummary.avgRating != null) {
     const yours = latestReview?.avg_rating ?? 0;
     if (yours > 0 && yours < competitorSummary.avgRating) {
