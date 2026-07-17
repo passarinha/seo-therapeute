@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTherapist } from "@/lib/data/therapists";
 import { listKeywords } from "@/lib/data/keywords";
 import { generateAdIdeas } from "@/lib/ads/generateAdIdeas";
+import { recommendMatchType } from "@/lib/ads/matchType";
 import { AdIdeasCard } from "@/components/dashboard/AdIdeasCard";
 import { InfoPanel } from "@/components/ui/InfoPanel";
 
@@ -37,7 +38,12 @@ export default async function AdsPage({
       ) : (
         <div className="space-y-4">
           {sortedKeywords.map((keyword) => (
-            <AdIdeasCard key={keyword.id} keyword={keyword} ideas={generateAdIdeas(therapist, keyword)} />
+            <AdIdeasCard
+              key={keyword.id}
+              keyword={keyword}
+              ideas={generateAdIdeas(therapist, keyword)}
+              matchType={recommendMatchType(keyword)}
+            />
           ))}
         </div>
       )}

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge, priorityColor, priorityLabel } from "@/components/ui/Badge";
 import type { AdIdeas, AdLine } from "@/lib/ads/generateAdIdeas";
+import type { MatchTypeResult } from "@/lib/ads/matchType";
 import type { Keyword } from "@/lib/supabase/types";
 
 function LineDisplay({ line }: { line: AdLine }) {
@@ -22,7 +23,15 @@ function storageKey(keywordId: string) {
   return `dismissed_ads_${keywordId}`;
 }
 
-export function AdIdeasCard({ keyword, ideas }: { keyword: Keyword; ideas: AdIdeas }) {
+export function AdIdeasCard({
+  keyword,
+  ideas,
+  matchType,
+}: {
+  keyword: Keyword;
+  ideas: AdIdeas;
+  matchType: MatchTypeResult;
+}) {
   const [copied, setCopied] = useState(false);
   const [dismissed, setDismissed] = useState<number[]>([]);
 
@@ -74,6 +83,9 @@ export function AdIdeasCard({ keyword, ideas }: { keyword: Keyword; ideas: AdIde
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-semibold text-slate-900">{keyword.keyword}</h3>
           <Badge color={priorityColor(keyword.priority)}>{priorityLabel(keyword.priority)}</Badge>
+          <span title={matchType.reason}>
+            <Badge color="slate">Type : {matchType.label}</Badge>
+          </span>
         </div>
         <div className="flex items-center gap-2">
           {dismissed.length > 0 && (

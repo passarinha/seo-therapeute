@@ -8,6 +8,8 @@ import { KeywordSuggestions } from "@/components/dashboard/KeywordSuggestions";
 import { KeywordBulkAddForm } from "@/components/dashboard/KeywordBulkAddForm";
 import { KeywordPrioritySelect, KeywordStatusSelect } from "@/components/dashboard/KeywordInlineSelects";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { classifyIntent } from "@/lib/seo/searchIntent";
 import Link from "next/link";
 import type { Keyword } from "@/lib/supabase/types";
 import { deleteKeyword } from "./actions";
@@ -41,6 +43,18 @@ export default async function KeywordsPage({
     },
     { key: "location", label: "Localisation" },
     { key: "current_position", label: "Position" },
+    {
+      key: "intent",
+      label: "Intention",
+      render: (k) => {
+        const result = classifyIntent(k, therapist);
+        return (
+          <span title={result.recommendation}>
+            <Badge color="blue">{result.label}</Badge>
+          </span>
+        );
+      },
+    },
     {
       key: "priority",
       label: "Priorité",
