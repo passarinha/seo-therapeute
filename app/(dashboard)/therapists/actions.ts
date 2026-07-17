@@ -29,7 +29,6 @@ export async function createTherapist(formData: FormData) {
   if (!user) redirect("/login");
 
   const { data: whoami, error: whoamiError } = await supabase.rpc("debug_auth_uid");
-  console.log("[createTherapist] getUser().id =", user.id, "| auth.uid() via RPC =", whoami, "| rpc error =", whoamiError);
 
   const fields = fieldsFromForm(formData);
   const payload = { ...fields, user_id: user.id };
@@ -40,7 +39,13 @@ export async function createTherapist(formData: FormData) {
     .single();
 
   if (error) {
-    console.error("[createTherapist] insert failed", { payload, error });
+    console.error("[createTherapist] insert failed", {
+      getUserId: user.id,
+      authUidViaRpc: whoami,
+      rpcError: whoamiError,
+      payload,
+      error,
+    });
     throw error;
   }
 
