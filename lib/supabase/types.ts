@@ -160,6 +160,10 @@ export type Database = {
         Args: { p_token: string };
         Returns: string;
       };
+      debug_auth_uid: {
+        Args: Record<string, never>;
+        Returns: string;
+      };
     };
   };
 };
