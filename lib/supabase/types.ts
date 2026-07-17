@@ -124,6 +124,17 @@ export type TherapistCollaborator = {
   created_at: string;
 };
 
+export type AdIdea = {
+  id: string;
+  therapist_id: string;
+  keyword_id: string;
+  headline: string;
+  description: string;
+  position: number;
+  created_at: string;
+  updated_at: string;
+};
+
 type Table<Row, Insert> = {
   Row: Row;
   Insert: Insert;
@@ -150,6 +161,10 @@ export type Database = {
       therapist_collaborator: Table<
         TherapistCollaborator,
         Partial<TherapistCollaborator> & { therapist_id: string; invited_by: string }
+      >;
+      ad_idea: Table<
+        AdIdea,
+        Partial<AdIdea> & { therapist_id: string; keyword_id: string; headline: string; description: string }
       >;
     };
     Views: Record<string, never>;

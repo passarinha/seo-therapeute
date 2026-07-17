@@ -44,7 +44,7 @@ function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): AdIdeas {
+function buildTemplatePools(therapist: TherapistProfile, keyword: Keyword) {
   const specialty = therapist.specialty || "thérapeute";
   const city = keyword.location || therapist.city || "";
   const cabinetName = therapist.cabinet_name;
@@ -59,6 +59,10 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
     capitalize(keyword.keyword),
     need ? `Aide pour ${need}` : `Consultation ${specialty}`,
     city ? `${city} : ${specialty} dispo` : `${specialty} disponible`,
+    city ? `Spécialiste ${specialty} à ${city}` : `Spécialiste ${specialty}`,
+    `${cabinetName} - ${specialty}`,
+    need ? `${capitalize(specialty)} - ${need}` : `${capitalize(specialty)} près de chez vous`,
+    city ? `Séance de ${specialty} à ${city}` : `Séance de ${specialty}`,
   ];
 
   const descriptionTemplates = [
@@ -67,10 +71,18 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
     entry || need
       ? `${entry ? capitalize(entry.approach) : capitalize(specialty)}${need ? `, notamment pour ${need}` : ""}. ${cta}.`
       : `${capitalize(specialty)} à l'écoute de vos besoins. ${cta} dès aujourd'hui.`,
+    `${capitalize(specialty)} à votre écoute${city ? ` à ${city}` : ""}. Contactez-moi pour en discuter.`,
+    `Accompagnement personnalisé en ${specialty}${need ? ` (${need})` : ""}. ${cta}.`,
   ];
 
-  const headlines = headlineTemplates.map((t) => toLine(t, HEADLINE_LIMIT));
-  const descriptions = descriptionTemplates.map((t) => toLine(t, DESCRIPTION_LIMIT));
+  return { headlineTemplates, descriptionTemplates };
+}
+
+export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): AdIdeas {
+  const { headlineTemplates, descriptionTemplates } = buildTemplatePools(therapist, keyword);
+
+  const headlines = headlineTemplates.slice(0, 5).map((t) => toLine(t, HEADLINE_LIMIT));
+  const descriptions = descriptionTemplates.slice(0, 3).map((t) => toLine(t, DESCRIPTION_LIMIT));
 
   const ads: AdVariant[] = headlines.map((headline, i) => ({
     headline,
@@ -78,4 +90,23 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
   }));
 
   return { ads };
+}
+
+/**
+ * Suggère une annonce supplémentaire (au-delà des 5 de départ), à utiliser pour
+ * le bouton "Suggérer une idée" — équivalent maison du "Afficher les idées" de
+ * Google Ads (nous n'avons pas accès à leur moteur de suggestion propriétaire).
+ */
+export function suggestAnotherAdVariant(
+  therapist: TherapistProfile,
+  keyword: Keyword,
+  variantIndex: number
+): { headline: string; description: string } {
+  const { headlineTemplates, descriptionTemplates } = buildTemplatePools(therapist, keyword);
+  const headline = headlineTemplates[variantIndex % headlineTemplates.length];
+  const description = descriptionTemplates[variantIndex % descriptionTemplates.length];
+  return {
+    headline: shortenToLimit(headline, HEADLINE_LIMIT),
+    description: shortenToLimit(description, DESCRIPTION_LIMIT),
+  };
 }

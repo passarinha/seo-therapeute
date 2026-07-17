@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTherapist } from "@/lib/data/therapists";
 import { listKeywords } from "@/lib/data/keywords";
-import { generateAdIdeas } from "@/lib/ads/generateAdIdeas";
+import { seedAdIdeasForKeyword } from "@/lib/data/adIdeas";
 import { recommendMatchType } from "@/lib/ads/matchType";
 import { seedStarterKeywordsIfNeeded } from "@/lib/actions/seedStarterKeywords";
 import { AdIdeasCard } from "@/components/dashboard/AdIdeasCard";
@@ -25,14 +25,21 @@ export default async function AdsPage({
     (a, b) => PRIORITY_ORDER[b.priority] - PRIORITY_ORDER[a.priority]
   );
 
+  const adIdeasByKeyword = await Promise.all(
+    sortedKeywords.map((keyword) => seedAdIdeasForKeyword(therapist, keyword))
+  );
+
   return (
     <div className="space-y-6">
-      <InfoPanel title="Des exemples de départ à adapter, pas des annonces prêtes à publier">
+      <InfoPanel title="Des exemples de départ, entièrement modifiables">
         Ces titres et descriptions sont générés automatiquement à partir de votre spécialité et de
-        vos mots-clés — ce sont des points de départ pour vous inspirer, pas des annonces
-        prouvées ni prêtes à publier telles quelles. Relisez-les avant de les utiliser dans Google
-        Ads, notamment pour respecter les règles publicitaires spécifiques à la santé et au
-        bien-être (pas de promesses de guérison, pas de ciblage intrusif).
+        vos mots-clés — modifiez-les librement, supprimez ceux qui ne conviennent pas, ou ajoutez-en
+        d&apos;autres. Relisez toujours avant publication, notamment pour respecter les règles
+        publicitaires spécifiques à la santé et au bien-être (pas de promesses de guérison, pas de
+        ciblage intrusif). Le vrai bouton &quot;Afficher les idées&quot; de Google Ads utilise leur
+        propre intelligence artificielle à partir de votre page web — nous n&apos;y avons pas accès,
+        mais le bouton &quot;Suggérer une nouvelle annonce&quot; ci-dessous propose une variante à
+        éditer.
       </InfoPanel>
 
       {sortedKeywords.length === 0 ? (
@@ -42,12 +49,12 @@ export default async function AdsPage({
         </p>
       ) : (
         <div className="space-y-4">
-          {sortedKeywords.map((keyword) => (
+          {sortedKeywords.map((keyword, i) => (
             <AdIdeasCard
               key={keyword.id}
               keyword={keyword}
               therapistId={id}
-              ideas={generateAdIdeas(therapist, keyword)}
+              adIdeas={adIdeasByKeyword[i]}
               matchType={recommendMatchType(keyword)}
             />
           ))}
