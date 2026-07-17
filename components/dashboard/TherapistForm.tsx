@@ -1,5 +1,6 @@
 import { Field } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { SPECIALTY_CATALOG } from "@/lib/seo/specialtyCatalog";
 import type { TherapistProfile } from "@/lib/supabase/types";
 
 export function TherapistForm({
@@ -16,7 +17,20 @@ export function TherapistForm({
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Nom du cabinet" name="cabinet_name" defaultValue={therapist?.cabinet_name} required />
         <Field label="Nom du thérapeute" name="therapist_name" defaultValue={therapist?.therapist_name} />
-        <Field label="Spécialité" name="specialty" defaultValue={therapist?.specialty} />
+        <div>
+          <Field
+            label="Spécialité"
+            name="specialty"
+            defaultValue={therapist?.specialty}
+            list="specialty-options"
+            placeholder="ex: Hypnothérapeute"
+          />
+          <datalist id="specialty-options">
+            {SPECIALTY_CATALOG.map((entry) => (
+              <option key={entry.id} value={entry.label} />
+            ))}
+          </datalist>
+        </div>
         <Field label="Ville" name="city" defaultValue={therapist?.city} />
         <Field label="Zone géographique ciblée" name="target_area" defaultValue={therapist?.target_area} />
         <Field label="Adresse" name="address" defaultValue={therapist?.address} />

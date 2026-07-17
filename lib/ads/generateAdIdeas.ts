@@ -1,4 +1,5 @@
 import type { TherapistProfile, Keyword } from "@/lib/supabase/types";
+import { findSpecialtyEntry } from "@/lib/seo/specialtyCatalog";
 
 export const HEADLINE_LIMIT = 30;
 export const DESCRIPTION_LIMIT = 90;
@@ -49,19 +50,23 @@ export function generateAdIdeas(therapist: TherapistProfile, keyword: Keyword): 
   const cabinetName = therapist.cabinet_name;
   const therapistName = therapist.therapist_name || specialty;
   const cta = therapist.booking_url ? "Réservez en ligne" : "Appelez maintenant";
+  const entry = findSpecialtyEntry(therapist.specialty);
+  const need = entry?.needs[0];
 
   const headlineTemplates = [
     city ? `${capitalize(specialty)} à ${city}` : capitalize(specialty),
     `${cabinetName} - ${therapist.booking_url ? "RDV en ligne" : "Appelez-nous"}`,
     capitalize(keyword.keyword),
-    `Consultation ${specialty}`,
+    need ? `Aide pour ${need}` : `Consultation ${specialty}`,
     city ? `${city} : ${specialty} dispo` : `${specialty} disponible`,
   ];
 
   const descriptionTemplates = [
     `Prenez rendez-vous avec ${therapistName}${city ? ` à ${city}` : ""}. ${cta}.`,
     `Cabinet ${cabinetName} : ${specialty}. Consultations${city ? ` à ${city}` : ""}. ${cta}.`,
-    `${capitalize(specialty)} à l'écoute de vos besoins. ${cta} dès aujourd'hui.`,
+    entry
+      ? `${capitalize(entry.approach)}, notamment pour ${entry.needs[0]}. ${cta}.`
+      : `${capitalize(specialty)} à l'écoute de vos besoins. ${cta} dès aujourd'hui.`,
   ];
 
   const headlines = headlineTemplates.map((t) => toLine(t, HEADLINE_LIMIT));

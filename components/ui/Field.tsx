@@ -5,6 +5,7 @@ export function Field({
   defaultValue,
   required,
   placeholder,
+  list,
 }: {
   label: string;
   name: string;
@@ -12,6 +13,7 @@ export function Field({
   defaultValue?: string | number | null;
   required?: boolean;
   placeholder?: string;
+  list?: string;
 }) {
   return (
     <div>
@@ -25,6 +27,7 @@ export function Field({
         defaultValue={defaultValue ?? undefined}
         required={required}
         placeholder={placeholder}
+        list={list}
         className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
       />
     </div>

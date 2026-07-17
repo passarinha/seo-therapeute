@@ -1,4 +1,5 @@
 import type { TherapistProfile } from "@/lib/supabase/types";
+import { findSpecialtyEntry } from "./specialtyCatalog";
 
 export function suggestKeywords(
   therapist: TherapistProfile,
@@ -11,11 +12,23 @@ export function suggestKeywords(
   if (!specialty) return [];
 
   const places = Array.from(new Set([city, targetArea].filter(Boolean))) as string[];
+  const placeSuffixes = places.length > 0 ? places.map((p) => ` ${p}`) : [""];
 
-  const templates: string[] = [];
-  for (const place of places.length > 0 ? places : [""]) {
-    const suffix = place ? ` ${place}` : "";
-    templates.push(
+  // Priorité aux besoins spécifiques au type de praticien (ex: "hypnothérapeute anxiété Lyon"),
+  // bien plus précis et pertinent que les modèles génériques ci-dessous.
+  const specialtyTemplates: string[] = [];
+  const entry = findSpecialtyEntry(specialty);
+  if (entry) {
+    for (const need of entry.needs) {
+      for (const suffix of placeSuffixes) {
+        specialtyTemplates.push(`${specialty} ${need}${suffix}`);
+      }
+    }
+  }
+
+  const genericTemplates: string[] = [];
+  for (const suffix of placeSuffixes) {
+    genericTemplates.push(
       `${specialty}${suffix}`,
       `cabinet de ${specialty}${suffix}`,
       `meilleur ${specialty}${suffix}`,
@@ -25,13 +38,13 @@ export function suggestKeywords(
       `${specialty} avis${suffix}`
     );
   }
-  templates.push(`${specialty} en ligne`, `${specialty} à domicile`, `${specialty} téléconsultation`);
+  genericTemplates.push(`${specialty} en ligne`, `${specialty} à domicile`, `${specialty} téléconsultation`);
 
   const existingLower = new Set(existingKeywords.map((k) => k.trim().toLowerCase()));
   const seen = new Set<string>();
   const suggestions: string[] = [];
 
-  for (const t of templates) {
+  for (const t of [...specialtyTemplates, ...genericTemplates]) {
     const key = t.toLowerCase();
     if (existingLower.has(key) || seen.has(key)) continue;
     seen.add(key);
