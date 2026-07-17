@@ -3,12 +3,14 @@ import Papa from "papaparse";
 import { createClient } from "@/lib/supabase/server";
 import { CSV_SCHEMAS } from "@/lib/csv/schemas";
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function GET(request: NextRequest) {
   const therapistId = request.nextUrl.searchParams.get("therapist") ?? "";
   const entity = request.nextUrl.searchParams.get("entity") ?? "";
   const schema = CSV_SCHEMAS[entity];
 
-  if (!therapistId || !schema) {
+  if (!UUID_RE.test(therapistId) || !schema) {
     return NextResponse.json({ error: "Paramètres invalides" }, { status: 400 });
   }
 

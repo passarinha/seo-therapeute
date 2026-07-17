@@ -44,6 +44,17 @@ export function LinkButton({
   variant?: keyof typeof variants;
   className?: string;
 }) {
+  // Les routes /api/* sont des téléchargements, pas des pages : un <a> évite que
+  // Next.js les pré-charge en arrière-plan (ce qui les appellerait sans leurs
+  // paramètres de recherche et ferait planter la route).
+  if (href.startsWith("/api/")) {
+    return (
+      <a href={href} className={`${base} ${variants[variant]} ${className}`}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
       {children}

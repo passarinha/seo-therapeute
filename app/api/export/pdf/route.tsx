@@ -9,8 +9,15 @@ import { listActionItems, sortActionsByImpact } from "@/lib/data/action-items";
 import { computeVisibilityScore, computeTrustScore, computeConversionScore, computeOpportunityScore } from "@/lib/scoring";
 import { DashboardReport } from "@/lib/pdf/DashboardReport";
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export async function GET(request: NextRequest) {
   const therapistId = request.nextUrl.searchParams.get("therapist") ?? "";
+
+  if (!UUID_RE.test(therapistId)) {
+    return NextResponse.json({ error: "Paramètre 'therapist' invalide" }, { status: 400 });
+  }
+
   const therapist = await getTherapist(therapistId);
 
   if (!therapist) {
