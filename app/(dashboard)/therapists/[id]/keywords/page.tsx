@@ -9,6 +9,7 @@ import { KeywordBulkAddForm } from "@/components/dashboard/KeywordBulkAddForm";
 import { KeywordPrioritySelect, KeywordStatusSelect } from "@/components/dashboard/KeywordInlineSelects";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { InfoPanel } from "@/components/ui/InfoPanel";
 import { classifyIntent } from "@/lib/seo/searchIntent";
 import Link from "next/link";
 import type { Keyword } from "@/lib/supabase/types";
@@ -71,6 +72,16 @@ export default async function KeywordsPage({
     <div className="space-y-4">
       <KeywordSuggestions therapistId={id} suggestions={suggestions} location={therapist?.city} />
       <KeywordBulkAddForm therapistId={id} />
+
+      <InfoPanel title="Besoin de formater vos mots-clés pour Google Ads ?">
+        Le type de correspondance (Exact / Expression / Large) doit être traduit dans une syntaxe
+        précise avant de le coller dans Google Ads (crochets, guillemets...). L&apos;outil gratuit{" "}
+        <a href="https://www.keywordmatchtypetool.com/" target="_blank" rel="noopener noreferrer">
+          keywordmatchtypetool.com
+        </a>{" "}
+        permet de coller votre liste de mots-clés et de les mettre automatiquement au bon format
+        selon le type de correspondance choisi.
+      </InfoPanel>
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Filters
