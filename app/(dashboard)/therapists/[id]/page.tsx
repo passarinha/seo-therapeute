@@ -5,7 +5,13 @@ import { listCollaborators } from "@/lib/data/collaborators";
 import { getCurrentUser } from "@/lib/supabase/session";
 import { isAdminEmail } from "@/lib/auth/admin";
 import { TherapistForm } from "@/components/dashboard/TherapistForm";
-import { updateTherapist, deleteTherapist, createInvite, revokeCollaborator } from "../actions";
+import {
+  updateTherapist,
+  deleteTherapist,
+  createInvite,
+  regenerateInvite,
+  revokeCollaborator,
+} from "../actions";
 import { Card } from "@/components/ui/Card";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { CopyLinkField } from "@/components/dashboard/CopyLinkField";
@@ -62,12 +68,17 @@ export default async function TherapistDetailPage({
           </p>
 
           <div className="mt-4 space-y-4">
-            {inviteUrl ? (
+            {inviteUrl && pendingInvite ? (
               <div>
                 <p className="text-xs font-medium text-slate-500">Lien d&apos;invitation en attente</p>
                 <div className="mt-1">
                   <CopyLinkField value={inviteUrl} />
                 </div>
+                <form action={regenerateInvite.bind(null, id, pendingInvite.id)} className="mt-2">
+                  <Button type="submit" variant="ghost">
+                    Régénérer un nouveau lien
+                  </Button>
+                </form>
               </div>
             ) : (
               <form action={createInviteWithId}>

@@ -110,6 +110,27 @@ export async function createInvite(therapistId: string) {
   revalidatePath(`/therapists/${therapistId}`);
 }
 
+export async function regenerateInvite(therapistId: string, collaboratorId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const { error: deleteError } = await supabase
+    .from("therapist_collaborator")
+    .delete()
+    .eq("id", collaboratorId);
+  if (deleteError) throw deleteError;
+
+  const { error: insertError } = await supabase
+    .from("therapist_collaborator")
+    .insert({ therapist_id: therapistId, invited_by: user.id });
+  if (insertError) throw insertError;
+
+  revalidatePath(`/therapists/${therapistId}`);
+}
+
 export async function revokeCollaborator(collaboratorId: string, therapistId: string) {
   const supabase = await createClient();
   const { error } = await supabase.from("therapist_collaborator").delete().eq("id", collaboratorId);
