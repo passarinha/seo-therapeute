@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { syncActionPlan } from "@/lib/actions/syncActionPlan";
 import { seedStarterKeywordsIfNeeded } from "@/lib/actions/seedStarterKeywords";
@@ -59,7 +60,7 @@ export async function updateTherapist(id: string, formData: FormData) {
 
   revalidatePath(`/therapists/${id}`);
   revalidatePath("/therapists");
-  await syncActionPlan(id);
+  after(() => syncActionPlan(id));
 }
 
 export async function deleteTherapist(id: string) {

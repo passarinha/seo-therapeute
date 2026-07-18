@@ -3,7 +3,7 @@ import { getTherapist } from "@/lib/data/therapists";
 import { listKeywords } from "@/lib/data/keywords";
 import { seedAdIdeasForKeyword } from "@/lib/data/adIdeas";
 import { recommendMatchType } from "@/lib/ads/matchType";
-import { seedStarterKeywordsIfNeeded } from "@/lib/actions/seedStarterKeywords";
+import { insertStarterKeywords } from "@/lib/actions/seedStarterKeywords";
 import { AdIdeasCard } from "@/components/dashboard/AdIdeasCard";
 import { InfoPanel } from "@/components/ui/InfoPanel";
 
@@ -18,9 +18,11 @@ export default async function AdsPage({
   const therapist = await getTherapist(id);
   if (!therapist) notFound();
 
-  await seedStarterKeywordsIfNeeded(id, therapist);
+  let keywords = await listKeywords(id);
+  if (keywords.length === 0 && therapist.specialty) {
+    keywords = await insertStarterKeywords(id, therapist);
+  }
 
-  const keywords = await listKeywords(id);
   const sortedKeywords = [...keywords].sort(
     (a, b) => PRIORITY_ORDER[b.priority] - PRIORITY_ORDER[a.priority]
   );

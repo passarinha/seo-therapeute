@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { syncActionPlan } from "@/lib/actions/syncActionPlan";
 
@@ -72,7 +73,7 @@ export async function upsertMonthlyMetrics(therapistId: string, formData: FormDa
 
   revalidatePath(`/therapists/${therapistId}/performance`);
   revalidatePath(`/therapists/${therapistId}`);
-  await syncActionPlan(therapistId);
+  after(() => syncActionPlan(therapistId));
   redirect(`/therapists/${therapistId}/performance`);
 }
 

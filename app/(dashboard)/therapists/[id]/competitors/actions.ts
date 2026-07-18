@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { syncActionPlan } from "@/lib/actions/syncActionPlan";
 
@@ -42,7 +43,7 @@ export async function createCompetitor(therapistId: string, formData: FormData) 
   if (error) throw error;
 
   revalidatePath(`/therapists/${therapistId}/competitors`);
-  await syncActionPlan(therapistId);
+  after(() => syncActionPlan(therapistId));
   redirect(`/therapists/${therapistId}/competitors`);
 }
 
@@ -56,7 +57,7 @@ export async function updateCompetitor(id: string, therapistId: string, formData
   if (error) throw error;
 
   revalidatePath(`/therapists/${therapistId}/competitors`);
-  await syncActionPlan(therapistId);
+  after(() => syncActionPlan(therapistId));
   redirect(`/therapists/${therapistId}/competitors`);
 }
 
