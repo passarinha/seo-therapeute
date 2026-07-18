@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listTherapists } from "@/lib/data/therapists";
-import { getCurrentUserId } from "@/lib/data/collaborators";
+import { getCurrentUser } from "@/lib/supabase/session";
+import { isAdminEmail } from "@/lib/auth/admin";
 import type { TherapistProfile } from "@/lib/supabase/types";
 
 function TherapistList({ therapists }: { therapists: TherapistProfile[] }) {
@@ -21,9 +22,11 @@ function TherapistList({ therapists }: { therapists: TherapistProfile[] }) {
 }
 
 export async function Sidebar() {
-  const [therapists, currentUserId] = await Promise.all([listTherapists(), getCurrentUserId()]);
+  const [therapists, user] = await Promise.all([listTherapists(), getCurrentUser()]);
+  const currentUserId = user?.id ?? null;
   const myTherapists = therapists.filter((t) => t.user_id === currentUserId);
   const sharedTherapists = therapists.filter((t) => t.user_id !== currentUserId);
+  const canCreateMore = isAdminEmail(user?.email) || therapists.length === 0;
 
   return (
     <nav className="h-full w-64 shrink-0 overflow-y-auto border-r border-slate-200 bg-white p-4">
@@ -39,9 +42,11 @@ export async function Sidebar() {
           <span className="text-xs font-medium uppercase tracking-wide text-slate-400">
             Mes cabinets
           </span>
-          <Link href="/therapists/new" className="text-xs text-slate-500 hover:text-slate-900">
-            + Nouveau
-          </Link>
+          {canCreateMore && (
+            <Link href="/therapists/new" className="text-xs text-slate-500 hover:text-slate-900">
+              + Nouveau
+            </Link>
+          )}
         </div>
         {myTherapists.length === 0 ? (
           <p className="px-3 py-2 text-xs text-slate-400">Aucun cabinet pour l&apos;instant.</p>

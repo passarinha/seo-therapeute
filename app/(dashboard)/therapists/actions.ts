@@ -33,6 +33,16 @@ export async function createTherapist(formData: FormData) {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  if (!isAdminEmail(user.email)) {
+    const { count, error: countError } = await supabase
+      .from("therapist_profile")
+      .select("id", { count: "exact", head: true });
+    if (countError) throw countError;
+    if ((count ?? 0) > 0) {
+      redirect("/therapists?error=limit");
+    }
+  }
+
   const id = crypto.randomUUID();
   const fields = fieldsFromForm(formData);
   const { error } = await supabase

@@ -1,7 +1,17 @@
+import { redirect } from "next/navigation";
+import { listTherapists } from "@/lib/data/therapists";
+import { getCurrentUser } from "@/lib/supabase/session";
+import { isAdminEmail } from "@/lib/auth/admin";
 import { TherapistForm } from "@/components/dashboard/TherapistForm";
 import { createTherapist } from "../actions";
 
-export default function NewTherapistPage() {
+export default async function NewTherapistPage() {
+  const [user, therapists] = await Promise.all([getCurrentUser(), listTherapists()]);
+
+  if (!isAdminEmail(user?.email) && therapists.length > 0) {
+    redirect("/therapists?error=limit");
+  }
+
   return (
     <div className="mx-auto max-w-2xl p-6">
       <h1 className="text-lg font-semibold text-slate-900">Nouveau cabinet</h1>

@@ -1,10 +1,21 @@
 import { listTherapists } from "@/lib/data/therapists";
+import { getCurrentUser } from "@/lib/supabase/session";
+import { isAdminEmail } from "@/lib/auth/admin";
 import { LinkButton } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 
-export default async function TherapistsListPage() {
-  const therapists = await listTherapists();
+export default async function TherapistsListPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const [therapists, user, { error }] = await Promise.all([
+    listTherapists(),
+    getCurrentUser(),
+    searchParams,
+  ]);
+  const canCreateMore = isAdminEmail(user?.email) || therapists.length === 0;
 
   return (
     <div className="p-4 sm:p-6">
@@ -15,8 +26,15 @@ export default async function TherapistsListPage() {
             Gère les fiches de tes cabinets/thérapeutes suivis.
           </p>
         </div>
-        <LinkButton href="/therapists/new">+ Nouveau cabinet</LinkButton>
+        {canCreateMore && <LinkButton href="/therapists/new">+ Nouveau cabinet</LinkButton>}
       </div>
+
+      {error === "limit" && (
+        <p className="mt-4 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-700">
+          Vous avez déjà accès à un cabinet. Contactez l&apos;administrateur si vous devez en
+          suivre un second.
+        </p>
+      )}
 
       {therapists.length === 0 ? (
         <Card className="mt-6">
