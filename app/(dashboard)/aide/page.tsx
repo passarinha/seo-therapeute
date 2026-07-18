@@ -134,6 +134,20 @@ export default function AidePage() {
       </Card>
 
       <Card>
+        <CardTitle>Optimisation référencement GEO</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Comment devenir une référence pour les IA (ChatGPT, Gemini, Claude, Perplexity...) :
+          architecture de site, données structurées, facteurs de positionnement et checklist GEO.
+        </p>
+        <Link
+          href="/aide/geo"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
+      </Card>
+
+      <Card>
         <CardTitle>Routine recommandée</CardTitle>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
           <li>Chaque mois : saisir les métriques du mois précédent (Search Console + GBP).</li>
