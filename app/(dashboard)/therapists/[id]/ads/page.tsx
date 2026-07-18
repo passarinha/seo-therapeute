@@ -44,6 +44,17 @@ export default async function AdsPage({
         éditer.
       </InfoPanel>
 
+      <InfoPanel title="Besoin de formater vos mots-clés pour Google Ads ?">
+        Le type de correspondance (Exact / Expression / Large, indiqué sur chaque groupe
+        ci-dessous) doit être traduit dans une syntaxe précise avant de le coller dans Google Ads
+        (crochets, guillemets...). L&apos;outil gratuit{" "}
+        <a href="https://www.keywordmatchtypetool.com/" target="_blank" rel="noopener noreferrer">
+          keywordmatchtypetool.com
+        </a>{" "}
+        permet de coller votre liste de mots-clés et de les mettre automatiquement au bon format
+        selon le type de correspondance choisi.
+      </InfoPanel>
+
       {sortedKeywords.length === 0 ? (
         <p className="text-sm text-slate-500">
           Renseignez une spécialité sur la fiche cabinet, ou ajoutez des mots-clés, pour générer des
