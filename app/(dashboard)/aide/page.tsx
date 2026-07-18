@@ -176,6 +176,21 @@ export default function AidePage() {
       </Card>
 
       <Card>
+        <CardTitle>Espionner ses concurrents</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Les outils gratuits (Google Ads Transparency, Meta Ads Library, LinkedIn Ads Library,
+          TikTok Creative Center, Google Trends, AnswerThePublic...) pour analyser les publicités
+          et contenus des thérapeutes concurrents.
+        </p>
+        <Link
+          href="/aide/espionner-concurrents"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
+      </Card>
+
+      <Card>
         <CardTitle>Instagram vs LinkedIn</CardTitle>
         <p className="mt-2 text-sm text-slate-600">
           Lequel choisir selon votre spécialité et votre objectif : comparatif détaillé,
