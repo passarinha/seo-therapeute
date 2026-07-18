@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { getTherapist } from "@/lib/data/therapists";
 import { listCollaborators } from "@/lib/data/collaborators";
-import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/session";
 import { TherapistForm } from "@/components/dashboard/TherapistForm";
 import { updateTherapist, deleteTherapist, createInvite, revokeCollaborator } from "../actions";
 import { Card } from "@/components/ui/Card";
@@ -18,10 +18,7 @@ export default async function TherapistDetailPage({
   const therapist = await getTherapist(id);
   if (!therapist) notFound();
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   const isOwner = user?.id === therapist.user_id;
 
   const updateWithId = updateTherapist.bind(null, id);

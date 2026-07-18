@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/session";
 import type { TherapistCollaborator } from "@/lib/supabase/types";
 
 export interface CollaboratorWithEmail extends TherapistCollaborator {
@@ -32,9 +33,6 @@ export async function listCollaborators(therapistId: string): Promise<Collaborat
 }
 
 export async function getCurrentUserId(): Promise<string | null> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   return user?.id ?? null;
 }
