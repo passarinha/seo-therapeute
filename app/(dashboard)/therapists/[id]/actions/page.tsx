@@ -19,7 +19,7 @@ export default async function ActionsPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-base font-semibold text-slate-900">Plan d&apos;action</h2>
           <p className="mt-1 text-sm text-slate-500">
@@ -54,11 +54,11 @@ export default async function ActionsPage({
           const deleteWithId = deleteActionItem.bind(null, a.id, id);
           return (
             <Card key={a.id}>
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-slate-900">{a.title}</p>
                 </div>
-                <div className="flex shrink-0 items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <Badge color={priorityColor(a.impact_estimate)}>Impact {priorityLabel(a.impact_estimate)}</Badge>
                   <ActionStatusSelect actionId={a.id} therapistId={id} status={a.status} />
                   <form action={deleteWithId}>

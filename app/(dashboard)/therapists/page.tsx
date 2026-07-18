@@ -7,8 +7,8 @@ export default async function TherapistsListPage() {
   const therapists = await listTherapists();
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Cabinets</h1>
           <p className="mt-1 text-sm text-slate-500">

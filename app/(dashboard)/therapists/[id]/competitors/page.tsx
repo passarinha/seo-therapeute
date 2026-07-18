@@ -87,7 +87,7 @@ export default async function CompetitorsPage({
           <CardTitle>Recommandations pour vous distinguer</CardTitle>
           <ul className="mt-3 space-y-3">
             {tips.map((tip, i) => (
-              <li key={i} className="flex items-center justify-between gap-4 rounded-md border border-slate-200 p-3">
+              <li className="flex flex-col gap-3 rounded-md border border-slate-200 p-3 sm:flex-row sm:items-center sm:justify-between" key={i}>
                 <div>
                   <p className="text-sm font-medium text-slate-900">{tip.title}</p>
                   <p className="mt-0.5 text-sm text-slate-500">{tip.detail}</p>
@@ -106,7 +106,7 @@ export default async function CompetitorsPage({
         </Card>
       )}
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <Filters
           fields={[
             {
@@ -120,7 +120,7 @@ export default async function CompetitorsPage({
             },
           ]}
         />
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <LinkButton href={`/api/export/csv?therapist=${id}&entity=competitor`} variant="secondary">
             Exporter CSV
           </LinkButton>

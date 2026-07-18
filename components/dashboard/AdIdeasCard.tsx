@@ -114,15 +114,15 @@ export function AdIdeasCard({
 
   return (
     <Card>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
           <h3 className="text-sm font-semibold text-slate-900">{keyword.keyword}</h3>
           <Badge color={priorityColor(keyword.priority)}>{priorityLabel(keyword.priority)}</Badge>
           <span title={matchType.reason}>
             <Badge color="slate">Type : {matchType.label}</Badge>
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={handleCopy}

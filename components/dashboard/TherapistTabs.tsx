@@ -17,8 +17,8 @@ export function TherapistTabs({ therapistId }: { therapistId: string }) {
   const pathname = usePathname();
 
   return (
-    <div className="border-b border-slate-200">
-      <nav className="-mb-px flex gap-4">
+    <div className="overflow-x-auto border-b border-slate-200">
+      <nav className="-mb-px flex gap-4 whitespace-nowrap">
         {TABS.map((tab) => {
           const href = `/therapists/${therapistId}${tab.slug ? `/${tab.slug}` : ""}`;
           const isActive = pathname === href;
@@ -26,7 +26,7 @@ export function TherapistTabs({ therapistId }: { therapistId: string }) {
             <Link
               key={tab.slug}
               href={href}
-              className={`border-b-2 px-1 py-2 text-sm ${
+              className={`shrink-0 border-b-2 px-1 py-2 text-sm ${
                 isActive
                   ? "border-slate-900 font-medium text-slate-900"
                   : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-900"

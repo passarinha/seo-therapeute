@@ -132,13 +132,13 @@ export default async function DashboardPage({
   });
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 p-4 sm:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-lg font-semibold text-slate-900">Vue globale</h1>
           <p className="mt-1 text-sm text-slate-500">{selected.cabinet_name}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <TherapistSelector therapists={therapists} selectedId={selected.id} />
           <LinkButton href={`/api/export/pdf?therapist=${selected.id}`} variant="secondary">
             Exporter en PDF
@@ -255,9 +255,9 @@ export default async function DashboardPage({
               </p>
             )}
             {topActions.map((a) => (
-              <li key={a.id} className="flex items-center justify-between rounded-md px-2 py-1 text-sm">
+              <li key={a.id} className="flex flex-col gap-1.5 rounded-md px-2 py-1 text-sm sm:flex-row sm:items-center sm:justify-between">
                 <span className="text-slate-700">{a.title}</span>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Badge color={priorityColor(a.impact_estimate)}>{priorityLabel(a.impact_estimate)}</Badge>
                   <Badge color={statusColor(a.status)}>{statusLabel(a.status)}</Badge>
                 </div>

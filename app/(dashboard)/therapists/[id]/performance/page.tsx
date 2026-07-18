@@ -75,7 +75,7 @@ export default async function PerformancePage({
         </p>
       </InfoPanel>
 
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex flex-wrap items-center justify-end gap-2">
         <LinkButton href={`/api/export/csv?therapist=${id}&entity=seo_metric`} variant="secondary">
           Export SEO CSV
         </LinkButton>
@@ -118,7 +118,7 @@ export default async function PerformancePage({
       </div>
 
       <Card>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <CardTitle>Historique mensuel</CardTitle>
           <Filters
             fields={[

@@ -80,9 +80,9 @@ export default async function TherapistDetailPage({
                   {acceptedCollaborators.map((c) => (
                     <li
                       key={c.id}
-                      className="flex items-center justify-between rounded-md border border-slate-200 px-3 py-2 text-sm"
+                      className="flex flex-col gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm sm:flex-row sm:items-center sm:justify-between"
                     >
-                      <span className="text-slate-700">{c.email ?? "Compte inconnu"}</span>
+                      <span className="min-w-0 truncate text-slate-700">{c.email ?? "Compte inconnu"}</span>
                       <form action={revokeCollaborator.bind(null, c.id, id)}>
                         <Button type="submit" variant="ghost">
                           Révoquer
@@ -91,7 +91,7 @@ export default async function TherapistDetailPage({
                     </li>
                   ))}
                   {pendingInvite && (
-                    <li className="flex items-center justify-between rounded-md border border-dashed border-slate-300 px-3 py-2 text-sm text-slate-500">
+                    <li className="flex flex-col gap-2 rounded-md border border-dashed border-slate-300 px-3 py-2 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
                       <span>Invitation en attente</span>
                       <form action={revokeCollaborator.bind(null, pendingInvite.id, id)}>
                         <Button type="submit" variant="ghost">

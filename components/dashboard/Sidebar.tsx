@@ -26,7 +26,7 @@ export async function Sidebar() {
   const sharedTherapists = therapists.filter((t) => t.user_id !== currentUserId);
 
   return (
-    <nav className="w-64 shrink-0 border-r border-slate-200 bg-white p-4">
+    <nav className="h-full w-64 shrink-0 overflow-y-auto border-r border-slate-200 bg-white p-4">
       <Link
         href="/"
         className="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"

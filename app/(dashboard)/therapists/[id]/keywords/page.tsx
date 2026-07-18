@@ -72,7 +72,7 @@ export default async function KeywordsPage({
       <KeywordSuggestions therapistId={id} suggestions={suggestions} location={therapist?.city} />
       <KeywordBulkAddForm therapistId={id} />
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <Filters
           fields={[
             {
@@ -95,7 +95,7 @@ export default async function KeywordsPage({
             },
           ]}
         />
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <LinkButton href={`/api/export/csv?therapist=${id}&entity=keyword`} variant="secondary">
             Exporter CSV
           </LinkButton>
