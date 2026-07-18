@@ -84,7 +84,20 @@ function FlowSteps({ steps }: { steps: string[] }) {
   );
 }
 
-function Table({ head, rows }: { head: string[]; rows: string[][] }) {
+function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-medium text-blue-700 underline"
+    >
+      {children}
+    </a>
+  );
+}
+
+function Table({ head, rows }: { head: string[]; rows: React.ReactNode[][] }) {
   return (
     <div className="mt-3 overflow-x-auto">
       <table className="w-full min-w-[560px] border-collapse text-sm">
@@ -503,49 +516,49 @@ export default function PodcastGuidePage() {
               head={["Plateforme", "Gratuit ?", "Points forts", "Limites", "Idéal pour"]}
               rows={[
                 [
-                  "Spotify for Podcasters",
+                  <ExternalLink key="spotify" href="https://podcasters.spotify.com/">Spotify for Podcasters</ExternalLink>,
                   "✅ Oui",
                   "Simple, distribution automatique, statistiques, intégration Spotify, enregistrement possible",
                   "Moins orienté site web/podcast professionnel avancé",
                   "Débuter rapidement",
                 ],
                 [
-                  "Acast",
+                  <ExternalLink key="acast" href="https://www.acast.com/">Acast</ExternalLink>,
                   "✅ Offre gratuite",
                   "Interface professionnelle, distribution large, statistiques",
                   "Limites sur certaines fonctionnalités avancées",
                   "Créateurs sérieux qui veulent évoluer",
                 ],
                 [
-                  "RedCircle",
+                  <ExternalLink key="redcircle" href="https://redcircle.com/">RedCircle</ExternalLink>,
                   "✅ Oui",
                   "Bon pour les créateurs indépendants, monétisation possible",
                   "Interface moins connue en France",
                   "Podcasts indépendants",
                 ],
                 [
-                  "Podbean",
+                  <ExternalLink key="podbean" href="https://www.podbean.com/">Podbean</ExternalLink>,
                   "✅ Offre gratuite",
                   "Simple, ancien acteur du marché, application mobile",
                   "Stockage et fonctionnalités limitées en gratuit",
                   "Débutants",
                 ],
                 [
-                  "Buzzsprout",
+                  <ExternalLink key="buzzsprout" href="https://www.buzzsprout.com/">Buzzsprout</ExternalLink>,
                   "⚠️ Essai gratuit / limité",
                   "Très simple, excellent accompagnement débutant",
                   "Gratuit limité dans le temps",
                   "Tester avant de passer au payant",
                 ],
                 [
-                  "Spreaker",
+                  <ExternalLink key="spreaker" href="https://www.spreaker.com/">Spreaker</ExternalLink>,
                   "✅ Offre gratuite",
                   "Live, création audio, communauté",
                   "Limites sur durée et stockage",
                   "Podcasts avec émissions en direct",
                 ],
                 [
-                  "iVoox",
+                  <ExternalLink key="ivoox" href="https://www.ivoox.com/">iVoox</ExternalLink>,
                   "✅ Offre gratuite",
                   "Forte présence hispanophone/francophone",
                   "Moins utilisé par certains publics",
@@ -555,7 +568,9 @@ export default function PodcastGuidePage() {
             />
 
             <H3>Mon classement pour un thérapeute</H3>
-            <P>🥇 Option 1 : Spotify for Podcasters (le plus simple)</P>
+            <P>
+              🥇 Option 1 : <ExternalLink href="https://podcasters.spotify.com/">Spotify for Podcasters</ExternalLink> (le plus simple)
+            </P>
             <P>Je le choisirais si tu démarres. Avantages :</P>
             <UL>
               <li>gratuit ;</li>
@@ -567,7 +582,9 @@ export default function PodcastGuidePage() {
             </UL>
             <P>Idéal pour lancer un podcast sans technique et tester ton concept.</P>
 
-            <P>🥈 Option 2 : Acast (plus professionnel)</P>
+            <P>
+              🥈 Option 2 : <ExternalLink href="https://www.acast.com/">Acast</ExternalLink> (plus professionnel)
+            </P>
             <P>Très intéressant si ton objectif est de construire une marque, développer une audience, avoir une vraie présence podcast. Avantages :</P>
             <UL>
               <li>aspect professionnel ;</li>
@@ -575,7 +592,9 @@ export default function PodcastGuidePage() {
               <li>outils créateurs.</li>
             </UL>
 
-            <P>🥉 Option 3 : Podbean</P>
+            <P>
+              🥉 Option 3 : <ExternalLink href="https://www.podbean.com/">Podbean</ExternalLink>
+            </P>
             <P>Bon compromis : simple, fiable, adapté aux débutants.</P>
           </section>
 
