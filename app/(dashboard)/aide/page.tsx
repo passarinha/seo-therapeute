@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { InfoPanel } from "@/components/ui/InfoPanel";
 
@@ -116,6 +117,20 @@ export default function AidePage() {
           une &quot;opportunité à exploiter&quot; : un point faible que vous pouvez utiliser à votre
           avantage (peu d&apos;avis récents, pas de créneaux en soirée, pas de réservation en ligne...).
         </p>
+      </Card>
+
+      <Card>
+        <CardTitle>Optimisation de ma fiche Google</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Le guide complet Google Business Profile (GBP) pour les thérapeutes : nom de fiche,
+          description, erreurs à éviter, photos, avis, et les outils utiles.
+        </p>
+        <Link
+          href="/aide/fiche-google"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
       </Card>
 
       <Card>

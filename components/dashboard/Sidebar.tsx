@@ -59,12 +59,18 @@ export async function Sidebar() {
         </div>
       )}
 
-      <div className="mt-6 border-t border-slate-200 pt-4">
+      <div className="mt-6 space-y-1 border-t border-slate-200 pt-4">
         <Link
           href="/aide"
           className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
         >
           <span aria-hidden>❓</span> Aide
+        </Link>
+        <Link
+          href="/aide/fiche-google"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
+        >
+          <span aria-hidden>🏷️</span> Optimisation de ma fiche Google
         </Link>
       </div>
     </nav>
