@@ -162,6 +162,20 @@ export default function AidePage() {
       </Card>
 
       <Card>
+        <CardTitle>Podcast</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Positionnement, format, stratégie invités, SEO des épisodes, données structurées,
+          calendrier de publication et comparatif des hébergeurs gratuits.
+        </p>
+        <Link
+          href="/aide/podcast"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
+      </Card>
+
+      <Card>
         <CardTitle>Routine recommandée</CardTitle>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
           <li>Chaque mois : saisir les métriques du mois précédent (Search Console + GBP).</li>
