@@ -131,16 +131,6 @@ export function generateActionPlan(
     });
   }
 
-  if (!therapist.website_url) {
-    candidates.push({
-      title: "Créer un site web ou une page de présentation",
-      category: "content",
-      impact_estimate: "high",
-      description:
-        "Pas besoin d'un site complexe pour démarrer : une seule page présentant votre spécialité, votre ville, vos tarifs et un lien de prise de rendez-vous suffit. Google Sites (gratuit), Wix, ou une fiche complète sur un annuaire professionnel (voir action dédiée ci-dessous) sont de bons premiers pas.",
-    });
-  }
-
   const competitorSummary = summarizeCompetitors(competitors);
   if (competitorSummary.avgRating != null) {
     const yours = latestReview?.avg_rating ?? 0;

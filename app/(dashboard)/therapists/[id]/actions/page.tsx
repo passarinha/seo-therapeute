@@ -57,7 +57,6 @@ export default async function ActionsPage({
               <div className="flex items-center justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-slate-900">{a.title}</p>
-                  <p className="mt-0.5 text-xs text-slate-500">{a.category ?? "Général"}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-3">
                   <Badge color={priorityColor(a.impact_estimate)}>Impact {priorityLabel(a.impact_estimate)}</Badge>
