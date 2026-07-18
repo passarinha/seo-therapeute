@@ -3,11 +3,13 @@ import { headers } from "next/headers";
 import { getTherapist } from "@/lib/data/therapists";
 import { listCollaborators } from "@/lib/data/collaborators";
 import { getCurrentUser } from "@/lib/supabase/session";
+import { isAdminEmail } from "@/lib/auth/admin";
 import { TherapistForm } from "@/components/dashboard/TherapistForm";
 import { updateTherapist, deleteTherapist, createInvite, revokeCollaborator } from "../actions";
 import { Card } from "@/components/ui/Card";
 import { Button, LinkButton } from "@/components/ui/Button";
 import { CopyLinkField } from "@/components/dashboard/CopyLinkField";
+import { DeleteAccountButton } from "@/components/dashboard/DeleteAccountButton";
 
 export default async function TherapistDetailPage({
   params,
@@ -20,12 +22,14 @@ export default async function TherapistDetailPage({
 
   const user = await getCurrentUser();
   const isOwner = user?.id === therapist.user_id;
+  const isAdmin = isAdminEmail(user?.email);
+  const canManage = isOwner || isAdmin;
 
   const updateWithId = updateTherapist.bind(null, id);
   const deleteWithId = deleteTherapist.bind(null, id);
   const createInviteWithId = createInvite.bind(null, id);
 
-  const collaborators = isOwner ? await listCollaborators(id) : [];
+  const collaborators = canManage ? await listCollaborators(id) : [];
   const pendingInvite = collaborators.find((c) => !c.accepted_at);
   const acceptedCollaborators = collaborators.filter((c) => c.accepted_at);
 
@@ -49,7 +53,7 @@ export default async function TherapistDetailPage({
         <TherapistForm action={updateWithId} therapist={therapist} submitLabel="Enregistrer" />
       </Card>
 
-      {isOwner && (
+      {canManage && (
         <Card>
           <h2 className="text-sm font-semibold text-slate-900">Partager l&apos;accès</h2>
           <p className="mt-1 text-sm text-slate-500">
@@ -83,11 +87,16 @@ export default async function TherapistDetailPage({
                       className="flex flex-col gap-2 rounded-md border border-slate-200 px-3 py-2 text-sm sm:flex-row sm:items-center sm:justify-between"
                     >
                       <span className="min-w-0 truncate text-slate-700">{c.email ?? "Compte inconnu"}</span>
-                      <form action={revokeCollaborator.bind(null, c.id, id)}>
-                        <Button type="submit" variant="ghost">
-                          Révoquer
-                        </Button>
-                      </form>
+                      <div className="flex items-center gap-3">
+                        {isAdmin && (
+                          <DeleteAccountButton collaboratorId={c.id} therapistId={id} />
+                        )}
+                        <form action={revokeCollaborator.bind(null, c.id, id)}>
+                          <Button type="submit" variant="ghost">
+                            Révoquer
+                          </Button>
+                        </form>
+                      </div>
                     </li>
                   ))}
                   {pendingInvite && (
@@ -107,18 +116,20 @@ export default async function TherapistDetailPage({
         </Card>
       )}
 
-      <Card className="border-red-200">
-        <h2 className="text-sm font-semibold text-red-700">Zone de suppression</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Supprime définitivement cette fiche et toutes ses données associées (mots-clés,
-          concurrents, métriques, plan d&apos;action).
-        </p>
-        <form action={deleteWithId} className="mt-3">
-          <Button type="submit" variant="danger">
-            Supprimer ce cabinet
-          </Button>
-        </form>
-      </Card>
+      {canManage && (
+        <Card className="border-red-200">
+          <h2 className="text-sm font-semibold text-red-700">Zone de suppression</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            Supprime définitivement cette fiche et toutes ses données associées (mots-clés,
+            concurrents, métriques, plan d&apos;action).
+          </p>
+          <form action={deleteWithId} className="mt-3">
+            <Button type="submit" variant="danger">
+              Supprimer ce cabinet
+            </Button>
+          </form>
+        </Card>
+      )}
     </div>
   );
 }

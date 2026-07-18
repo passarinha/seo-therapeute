@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { isAdminEmail } from "@/lib/auth/admin";
 import { syncActionPlan } from "@/lib/actions/syncActionPlan";
 import { seedStarterKeywordsIfNeeded } from "@/lib/actions/seedStarterKeywords";
 
@@ -102,6 +104,38 @@ export async function revokeCollaborator(collaboratorId: string, therapistId: st
   const supabase = await createClient();
   const { error } = await supabase.from("therapist_collaborator").delete().eq("id", collaboratorId);
   if (error) throw error;
+
+  revalidatePath(`/therapists/${therapistId}`);
+}
+
+export async function deleteCollaboratorAccount(collaboratorId: string, therapistId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!isAdminEmail(user?.email)) {
+    throw new Error("Action réservée à l'administrateur.");
+  }
+
+  const { data: collaborator, error: fetchError } = await supabase
+    .from("therapist_collaborator")
+    .select("user_id")
+    .eq("id", collaboratorId)
+    .single();
+
+  if (fetchError) throw fetchError;
+
+  if (collaborator?.user_id) {
+    const adminClient = createAdminClient();
+    const { error: deleteUserError } = await adminClient.auth.admin.deleteUser(
+      collaborator.user_id
+    );
+    if (deleteUserError) throw deleteUserError;
+  } else {
+    const { error } = await supabase.from("therapist_collaborator").delete().eq("id", collaboratorId);
+    if (error) throw error;
+  }
 
   revalidatePath(`/therapists/${therapistId}`);
 }
