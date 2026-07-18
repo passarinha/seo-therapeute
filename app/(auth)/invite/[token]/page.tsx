@@ -33,7 +33,8 @@ export default async function InvitePage({
       <Shell>
         <h1 className="text-lg font-semibold text-slate-900">Invitation à un cabinet</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Entrez votre email pour accéder directement au cabinet — aucun mot de passe à créer.
+          Entrez votre email : vous recevrez un lien pour accéder directement au cabinet, sans mot
+          de passe à créer.
         </p>
         <InviteAuthForm token={token} />
       </Shell>
