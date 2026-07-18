@@ -162,6 +162,20 @@ export default function AidePage() {
       </Card>
 
       <Card>
+        <CardTitle>Réseaux sociaux</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Comparatif LinkedIn/YouTube/Instagram/Facebook/TikTok/Snapchat, stratégie par type de
+          thérapeute, et priorité de chaque canal pour la confiance, les recommandations et le GEO.
+        </p>
+        <Link
+          href="/aide/reseaux-sociaux"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
+      </Card>
+
+      <Card>
         <CardTitle>Podcast</CardTitle>
         <p className="mt-2 text-sm text-slate-600">
           Positionnement, format, stratégie invités, SEO des épisodes, données structurées,
