@@ -148,6 +148,20 @@ export default function AidePage() {
       </Card>
 
       <Card>
+        <CardTitle>SEO YouTube</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Positionnement de chaîne, piliers de contenu, mots-clés, optimisation des vidéos et
+          checklist complète pour être vu par YouTube et repris par les IA.
+        </p>
+        <Link
+          href="/aide/youtube"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
+      </Card>
+
+      <Card>
         <CardTitle>Routine recommandée</CardTitle>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
           <li>Chaque mois : saisir les métriques du mois précédent (Search Console + GBP).</li>
