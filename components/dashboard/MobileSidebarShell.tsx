@@ -16,7 +16,7 @@ export function MobileSidebarShell({ children }: { children: React.ReactNode }) 
       )}
 
       <div
-        className={`fixed inset-y-0 left-0 z-50 flex h-full transform flex-col bg-white shadow-lg transition-transform duration-200 md:static md:z-auto md:h-auto md:transform-none md:bg-transparent md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-50 flex h-full flex-col bg-white shadow-lg transition-transform duration-200 md:static md:z-auto md:h-auto md:translate-x-0 md:bg-transparent md:shadow-none ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
