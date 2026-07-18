@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { MobileSidebarProvider } from "@/components/dashboard/MobileSidebarContext";
 import { MobileSidebarToggleButton } from "@/components/dashboard/MobileSidebarToggleButton";
 import { MobileSidebarShell } from "@/components/dashboard/MobileSidebarShell";
+import { ScrollToTopButton } from "@/components/ui/ScrollToTopButton";
 
 export default async function DashboardLayout({
   children,
@@ -42,6 +43,7 @@ export default async function DashboardLayout({
           </MobileSidebarShell>
           <main className="min-w-0 flex-1">{children}</main>
         </div>
+        <ScrollToTopButton />
       </div>
     </MobileSidebarProvider>
   );
