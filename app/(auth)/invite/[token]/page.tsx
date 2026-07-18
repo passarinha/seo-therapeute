@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { InviteAuthForm } from "@/components/dashboard/InviteAuthForm";
 import { acceptInvite } from "./actions";
 
 function Shell({ children }: { children: React.ReactNode }) {
@@ -32,14 +33,9 @@ export default async function InvitePage({
       <Shell>
         <h1 className="text-lg font-semibold text-slate-900">Invitation à un cabinet</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Connectez-vous ou créez un compte pour accepter cette invitation.
+          Entrez votre email pour accéder directement au cabinet — aucun mot de passe à créer.
         </p>
-        <Link
-          href={`/login?redirect=${encodeURIComponent(`/invite/${token}`)}`}
-          className="mt-4 inline-block w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
-        >
-          Se connecter / Créer un compte
-        </Link>
+        <InviteAuthForm token={token} />
       </Shell>
     );
   }
