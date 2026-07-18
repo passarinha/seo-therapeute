@@ -91,6 +91,12 @@ export async function Sidebar() {
           <span aria-hidden>📱</span> Réseaux sociaux
         </Link>
         <Link
+          href="/aide/instagram-vs-linkedin"
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
+        >
+          <span aria-hidden>⚖️</span> Instagram vs LinkedIn
+        </Link>
+        <Link
           href="/aide/podcast"
           className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
         >

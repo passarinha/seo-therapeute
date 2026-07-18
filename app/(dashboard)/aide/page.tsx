@@ -176,6 +176,20 @@ export default function AidePage() {
       </Card>
 
       <Card>
+        <CardTitle>Instagram vs LinkedIn</CardTitle>
+        <p className="mt-2 text-sm text-slate-600">
+          Lequel choisir selon votre spécialité et votre objectif : comparatif détaillé,
+          contenus efficaces, fréquence réaliste, optimisation de profil et impact GEO.
+        </p>
+        <Link
+          href="/aide/instagram-vs-linkedin"
+          className="mt-3 inline-block text-sm font-medium text-blue-700 underline"
+        >
+          Ouvrir le guide →
+        </Link>
+      </Card>
+
+      <Card>
         <CardTitle>Podcast</CardTitle>
         <p className="mt-2 text-sm text-slate-600">
           Positionnement, format, stratégie invités, SEO des épisodes, données structurées,
