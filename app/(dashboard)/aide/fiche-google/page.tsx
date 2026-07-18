@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const SECTIONS = [
   { id: "nom-fiche", label: "1. Le nom de la fiche" },
   { id: "nom-utile", label: "2. Quel nom est vraiment utile ?" },
@@ -66,10 +64,7 @@ export default function GbpGuidePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
       <div>
-        <Link href="/aide" className="text-xs font-medium text-blue-700 hover:underline">
-          ← Retour à Aide
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold text-slate-900">
+        <h1 className="text-lg font-semibold text-slate-900">
           Optimisation de ma fiche Google
         </h1>
         <p className="mt-1 text-sm text-slate-500">

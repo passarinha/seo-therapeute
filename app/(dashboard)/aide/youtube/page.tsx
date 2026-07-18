@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const SECTIONS = [
   { id: "positionnement", label: "1. Le positionnement YouTube" },
   { id: "piliers-contenu", label: "2. Créer des piliers de contenu" },
@@ -92,10 +90,7 @@ export default function YoutubeGuidePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
       <div>
-        <Link href="/aide" className="text-xs font-medium text-blue-700 hover:underline">
-          ← Retour à Aide
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold text-slate-900">SEO YouTube</h1>
+        <h1 className="text-lg font-semibold text-slate-900">SEO YouTube</h1>
         <p className="mt-1 text-sm text-slate-500">
           YouTube est le 2ᵉ moteur de recherche mondial, une source de confiance forte, et une
           source que les IA utilisent pour comprendre votre expertise.

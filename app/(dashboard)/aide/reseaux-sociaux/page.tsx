@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const SECTIONS = [
   { id: "comparatif", label: "Comparatif des réseaux sociaux" },
   { id: "tiktok", label: "1. TikTok pour un thérapeute" },
@@ -117,10 +115,7 @@ export default function SocialMediaGuidePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
       <div>
-        <Link href="/aide" className="text-xs font-medium text-blue-700 hover:underline">
-          ← Retour à Aide
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold text-slate-900">Réseaux sociaux</h1>
+        <h1 className="text-lg font-semibold text-slate-900">Réseaux sociaux</h1>
         <p className="mt-1 text-sm text-slate-500">
           Quel réseau choisir ? Il faut les évaluer non pas selon le nombre d&apos;utilisateurs, mais
           selon leur capacité à générer de la confiance, des demandes de rendez-vous, des

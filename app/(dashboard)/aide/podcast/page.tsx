@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const SECTIONS = [
   { id: "role-strategique", label: "1. Le rôle stratégique du podcast" },
   { id: "positionnement", label: "2. Le positionnement idéal" },
@@ -119,10 +117,7 @@ export default function PodcastGuidePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
       <div>
-        <Link href="/aide" className="text-xs font-medium text-blue-700 hover:underline">
-          ← Retour à Aide
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold text-slate-900">Podcast</h1>
+        <h1 className="text-lg font-semibold text-slate-900">Podcast</h1>
         <p className="mt-1 text-sm text-slate-500">
           Le podcast est particulièrement puissant dans les métiers de l&apos;accompagnement parce
           qu&apos;il crée un actif rare : la confiance avant le premier contact.

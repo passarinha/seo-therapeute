@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const SECTIONS = [
   { id: "optimisations-site", label: "1. Optimisations indispensables sur ton site" },
   { id: "donnees-structurees", label: "2. Les données structurées indispensables" },
@@ -92,10 +90,7 @@ export default function GeoGuidePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
       <div>
-        <Link href="/aide" className="text-xs font-medium text-blue-700 hover:underline">
-          ← Retour à Aide
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold text-slate-900">
+        <h1 className="text-lg font-semibold text-slate-900">
           Optimisation référencement GEO
         </h1>
         <p className="mt-1 text-sm text-slate-500">

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const SECTIONS = [
   { id: "comparatif", label: "Instagram vs LinkedIn : le comparatif" },
   { id: "instagram", label: "1. Instagram : créer une relation de confiance" },
@@ -143,10 +141,7 @@ export default function InstagramVsLinkedInGuidePage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
       <div>
-        <Link href="/aide" className="text-xs font-medium text-blue-700 hover:underline">
-          ← Retour à Aide
-        </Link>
-        <h1 className="mt-2 text-lg font-semibold text-slate-900">Instagram vs LinkedIn</h1>
+        <h1 className="text-lg font-semibold text-slate-900">Instagram vs LinkedIn</h1>
         <p className="mt-1 text-sm text-slate-500">
           Les deux peuvent être très intéressants pour un thérapeute, mais ils ne jouent pas le même
           rôle. Le choix dépend du type de thérapeute, de la clientèle recherchée et de
